@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		#loginWapper {
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background-color: rgba(5, 5, 5, .6);
+			text-align: center;
+			color: #fff;
+			padding-top: 200px;
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<p>这是一个弹出层的实例，点击下面的按钮弹出登录对话框</p>
+		<button id="login">请登录</button>
+
+		<div id="loginWapper">
+			<div id="innerWapper" style="width:400px;height:300px; background-color:#87CEFA; position: absolute;left: 550px;top: 150px;">
+				<div id="move" style="width:400px;height:30px;background-color:red;cursor:move;">请登录</div>
+				<form action="/test.php" method="POST">
+					<label for="username">name:</label>
+					<input type="text" name="username" required><br>
+					<label for="passwd">password:</label>
+					<input type="password" name="passwd" required>
+					<br>
+					<button type="submit">提交</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery-2.1.4.js"></script>
+	<script>
+	//弹出框的展示和隐藏
+	var loginButton = document.getElementById("login");
+	var loginWapper = document.getElementById("loginWapper");
+		var innerWapper = $("#loginWapper *");  //选中id=loginWapper内部所有元素，但不不包含自身
+	var innerWapperSelf = $("#innerWapper"); 
+
+		loginButton.onclick = function(){
+			loginWapper.style.display = "block";
+		}
+
+		loginWapper.onclick = function(e){
+			var target = $(e.target);
+			if(!target.is(innerWapper)) {
+				loginWapper.style.display = "none";
+			}
+		}
+
+		//拖动功能
+		var posX; 
+		var posY; 
+		document.getElementById("move").onmousedown=function(e) 
+		{ 
+			if(!e) e = window.event; 
+			posX = e.clientX - parseInt(innerWapperSelf.css("left")); 
+			posY = e.clientY - parseInt(innerWapperSelf.css("top")); 
+			document.onmousemove = mousemove; 
+		} 
+		document.onmouseup = function() 
+		{ 
+			document.onmousemove = null; 
+		} 
+		function mousemove(ev) 
+		{ 
+			if(ev==null) ev = window.event; 
+			innerWapperSelf.css("left",((ev.clientX - posX) + "px")); 
+			innerWapperSelf.css("top",(ev.clientY - posY + "px")); 
+		} 
+	</script>
+
+</body>
+</html>
